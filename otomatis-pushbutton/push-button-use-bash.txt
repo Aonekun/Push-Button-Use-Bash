@@ -1,0 +1,23 @@
+#!/bin/bash
+
+direction#$1
+pin=$2
+
+echo $pin > /sys/class/gpio/export
+echo $direction > /sys/class/gpio/gpio$pin/direction
+a=0
+while
+do 
+    pininput=$(cat /sys/class/gpio/gpio$pin/value)
+    if [ $pininput = '1' ] && [$a = 0 ]; then
+        echo "Program Is Start"
+        pyton pintu.py
+        a=2
+    elif [ $pininput = '1' ] && [ $a = 2 ]; then
+        echo "Program Is Runnung"
+    else
+        echo "Program stop"
+        a=0
+    fi
+sleep 3
+done
